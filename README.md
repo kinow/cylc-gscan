@@ -4,7 +4,13 @@
 
 Cylc GScan JupyterLab extenstion
 
+## Dependencies
 
+```bash
+conda create -n jupyterlab-ext --override-channels --strict-channel-priority -c conda-forge -c anaconda jupyterlab cookiecutter nodejs git
+conda activate jupyterlab-ext
+(jupyterlab-ext) yarn install
+```
 
 ## Requirements
 
