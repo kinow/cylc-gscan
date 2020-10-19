@@ -1,7 +1,10 @@
 import {
+  ILayoutRestorer,
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
+
+import { StackedPanel, Widget } from '@lumino/widgets';
 
 /**
  * Initialization data for the cylc-gscan extension.
@@ -9,9 +12,31 @@ import {
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'cylc-gscan',
   autoStart: true,
-  activate: (app: JupyterFrontEnd) => {
+  activate: (app: JupyterFrontEnd, layout: ILayoutRestorer) => {
     console.log('JupyterLab extension cylc-gscan is activated!');
+    buildUI(app, layout);
   }
 };
+
+function buildUI(app: JupyterFrontEnd, layout: ILayoutRestorer) {
+  const view = new Widget();
+  const sidePanel = new StackedPanel();
+  sidePanel.id = 'cylc-gscan';
+  sidePanel.addWidget(view);
+
+  // add side panel view to JupyterLab
+  layout.add(sidePanel, 'v-VerdantPanel');
+  app.shell.add(sidePanel, 'left');
+
+  renderGScan(view);
+  return view;
+}
+
+function renderGScan(widget: Widget, props = {}) {
+  // TODO: render the GScan component here
+  // now render the panel view
+  // const ui = React.createElement(MyAppUI, props);
+  // ReactDOM.render(ui, widget.node);
+}
 
 export default extension;
