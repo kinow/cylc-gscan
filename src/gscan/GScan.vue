@@ -89,8 +89,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </template>
 
 <script>
-import Job from '@/components/cylc/Job'
-import { getWorkflowSummary } from '@/components/cylc/gscan/index'
+import Job from 'Job'
+import { getWorkflowSummary } from 'index'
 import { GSCAN_QUERY } from '@/graphql/queries'
 import { mdiPlayCircle, mdiPauseOctagon, mdiHelpCircle } from '@mdi/js'
 
