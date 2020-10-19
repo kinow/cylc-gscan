@@ -91,8 +91,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script>
 import Job from 'Job'
 import { getWorkflowSummary } from 'index'
-import { GSCAN_QUERY } from '@/graphql/queries'
 import { mdiPlayCircle, mdiPauseOctagon, mdiHelpCircle } from '@mdi/js'
+
+/**
+ * Query used to retrieve data for the GScan sidebar.
+ * @type {DocumentNode}
+ */
+const GSCAN_QUERY = `
+subscription {
+  workflows {
+    id
+    name
+    status
+    owner
+    host
+    port
+    taskProxies(sort: { keys: ["cyclePoint"] }) {
+      id
+      name
+      state
+      cyclePoint
+      latestMessage
+      task {
+        meanElapsedTime
+        name
+      }
+      jobs(sort: { keys: ["submit_num"], reverse:true }) {
+        id
+        batchSysName
+        batchSysJobId
+        host
+        startedTime
+        submittedTime
+        finishedTime
+        state
+        submitNum
+      }
+    }
+  }
+}
+`
 
 const QUERIES = {
   root: GSCAN_QUERY
