@@ -93,6 +93,9 @@ import Job from 'Job'
 import { getWorkflowSummary } from 'index'
 import { mdiPlayCircle, mdiPauseOctagon, mdiHelpCircle } from '@mdi/js'
 
+import { DocumentNode } from 'graphql'
+import WorkflowService from './service'
+
 /**
  * Query used to retrieve data for the GScan sidebar.
  * @type {DocumentNode}
@@ -136,23 +139,16 @@ const QUERIES = {
   root: GSCAN_QUERY
 }
 
+const workflowService = new WorkflowService();
+
 export default {
   name: 'GScan',
   components: {
     job: Job
   },
-  props: {
-    /**
-     * Vanilla workflows object from GraphQL query
-     * @type {{}|null}
-     */
-    workflows: {
-      type: Array,
-      required: true
-    }
-  },
   data () {
     return {
+      workflows: [],
       viewID: '',
       subscriptions: {},
       isLoading: true,
@@ -204,45 +200,17 @@ export default {
     }
   },
   created () {
-    this.viewID = `GScan(*): ${Math.random()}`
-    this.$workflowService.register(
-      this,
-      {
-        activeCallback: this.setActive
-      }
-    )
-    this.subscribe('root')
+    const vm = this
+    workflowService.request(GSCAN_QUERY, (workflows) => {
+      vm.workflows = workflows
+    })
   },
   beforeDestroy () {
-    this.$workflowService.unregister(this)
+    if (workflowService.observable !== null) {
+      workflowService.observable.unsubscribe()
+    }
   },
   methods: {
-    subscribe (queryName) {
-      /**
-       * Subscribe this view to a new GraphQL query.
-       * @param {string} queryName - Must be in QUERIES.
-       */
-      if (!(queryName in this.subscriptions)) {
-        this.subscriptions[queryName] =
-          this.$workflowService.subscribe(
-            this,
-            QUERIES[queryName]
-          )
-      }
-    },
-
-    unsubscribe (queryName) {
-      /**
-       * Unsubscribe this view to a new GraphQL query.
-       * @param {string} queryName - Must be in QUERIES.
-       */
-      if (queryName in this.subscriptions) {
-        this.$workflowService.unsubscribe(
-          this.subscriptions[queryName]
-        )
-      }
-    },
-
     setActive (isActive) {
       /** Toggle the isLoading state.
        * @param {bool} isActive - Are this views subs active.
