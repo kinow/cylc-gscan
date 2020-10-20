@@ -18,7 +18,8 @@ const extension: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, layout: ILayoutRestorer) => {
     console.log('JupyterLab extension cylc-gscan is activated!');
     buildUI(app, layout);
-  }
+  },
+  requires: [ILayoutRestorer]
 };
 
 function buildUI(app: JupyterFrontEnd, layout: ILayoutRestorer) {
