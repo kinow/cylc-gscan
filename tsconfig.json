@@ -18,6 +18,7 @@
     "resolveJsonModule": true,
     "outDir": "lib",
     "rootDir": "src",
+    "sourceMap": true,
     "strict": true,
     "strictNullChecks": false,
     "target": "es6",
@@ -26,5 +27,5 @@
     ],
     "types": []
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*"]
 }

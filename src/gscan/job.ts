@@ -1,15 +1,10 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
-@Component({
-  props: {
-    status: {
-      type: String,
-      required: true
-    }
-  },
-  template: `<template functional>
-  <span class="job_theme--normal">
+const compiler = require('vue-template-compiler');
+
+const TEMPLATE = `
+<span class="job_theme--normal">
     <span
       class="c-job"
       style="display:inline-block; vertical-align:middle"
@@ -19,7 +14,7 @@ import Component from 'vue-class-component';
       viewBox="0 0 100 100"
     >
       <rect
-        v-bind:class="[props.status]"
+        v-bind:class="[status]"
         x="10" y="10"
         width="80" height="80"
         rx="20" ry="20"
@@ -27,8 +22,20 @@ import Component from 'vue-class-component';
       />
     </svg>
   </span>
-  </span>
-</template>`
+</span>
+`
+
+@Component({
+  props: {
+    status: {
+      type: String,
+      required: true
+    }
+  },
+  render(createElement: any, context: any): any {
+    const { render } = compiler.compileToFunctions(TEMPLATE);
+    return render(createElement, {})
+  }
 })
 export default class Job extends Vue {
 

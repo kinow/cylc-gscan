@@ -37,12 +37,14 @@
     "@jupyterlab/application": "^2.0.2",
     "@mdi/js": "5.6.55",
     "@types/node": "^14.11.10",
+    "@types/vue": "^2.0.0",
     "@types/ws": "^7.2.7",
     "graphql": "15.3.0",
     "graphql-tag": "2.11.0",
     "subscriptions-transport-ws": "^0.9.18",
     "vue": "2.6.12",
     "vue-class-component": "^7.2.6",
+    "vue-template-compiler": "^2.6.12",
     "vuetify": "2.3.12"
   },
   "devDependencies": {

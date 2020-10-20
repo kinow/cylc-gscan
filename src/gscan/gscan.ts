@@ -6,6 +6,8 @@ import Job from './job';
 import WorkflowService from './service';
 import gql from 'graphql-tag';
 
+const compiler = require('vue-template-compiler');
+
 const GSCAN_QUERY = `
 subscription {
   workflows {
@@ -69,12 +71,8 @@ function getWorkflowSummary (workflow: any) {
 
 const workflowService = new WorkflowService()
 
-@Component({
-  components: {
-    Job
-  },
-  template: `
-<template>
+const TEMPLATE = `
+<div>
   <div
     class="c-gscan"
   >
@@ -145,8 +143,17 @@ const workflowService = new WorkflowService()
       </v-list-item>
     </div>
   </div>
-</template>
-  `
+</div>
+`
+
+@Component({
+  components: {
+    Job
+  },
+  render(createElement: any, context: any): any {
+    const { render } = compiler.compileToFunctions(TEMPLATE);
+    return render(createElement, {})
+  }
 })
 export default class GScan extends Vue {
   // data
