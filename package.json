@@ -7,9 +7,9 @@
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/my_name/myextension",
+  "homepage": "https://github.com/kinow/cylc-gscan",
   "bugs": {
-    "url": "https://github.com/my_name/myextension/issues"
+    "url": "https://github.com/kinow/cylc-gscan/issues"
   },
   "license": "BSD-3-Clause",
   "author": "Bruno P. Kinoshita",
@@ -22,7 +22,7 @@
   "style": "style/index.css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/my_name/myextension.git"
+    "url": "https://github.com/kinow/cylc-gscan.git"
   },
   "scripts": {
     "build": "tsc",
@@ -36,10 +36,13 @@
     "@apollo/client": "3.2.2",
     "@jupyterlab/application": "^2.0.0",
     "@mdi/js": "5.6.55",
+    "@types/node": "^14.11.10",
+    "@types/ws": "^7.2.7",
     "graphql": "15.3.0",
     "graphql-tag": "2.11.0",
     "subscriptions-transport-ws": "^0.9.18",
     "vue": "2.6.12",
+    "vue-class-component": "^7.2.6",
     "vuetify": "2.3.12"
   },
   "devDependencies": {

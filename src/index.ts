@@ -6,6 +6,9 @@ import {
 
 import { StackedPanel, Widget } from '@lumino/widgets';
 
+import Vue from 'vue';
+import GScan from './gscan/gscan';
+
 /**
  * Initialization data for the cylc-gscan extension.
  */
@@ -32,10 +35,17 @@ function buildUI(app: JupyterFrontEnd, layout: ILayoutRestorer) {
   return view;
 }
 
-function renderGScan(widget: Widget, props = {}) {
+function renderGScan(widget: Widget) {
   // TODO: render the GScan component here
   // now render the panel view
-  // const ui = React.createElement(MyAppUI, props);
+  new Vue({
+    el: widget.node.id,
+    render(h) {
+      return h(GScan, {});
+    }
+  });
+  // const component = VueInReact(GScan);
+  // const ui = React.createElement(component, props);
   // ReactDOM.render(ui, widget.node);
 }
 
