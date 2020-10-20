@@ -26,6 +26,8 @@ function buildUI(app: JupyterFrontEnd, layout: ILayoutRestorer) {
   const view = new Widget();
   const sidePanel = new StackedPanel();
   sidePanel.id = 'cylc-gscan';
+  sidePanel.title.iconClass = 'myIcon jp-SideBar-tabIcon';
+  sidePanel.title.caption = 'Cylc GScan';
   sidePanel.addWidget(view);
 
   // add side panel view to JupyterLab
@@ -40,7 +42,7 @@ function renderGScan(widget: Widget) {
   // TODO: render the GScan component here
   // now render the panel view
   new Vue({
-    el: widget.node.id,
+    el: widget.node,
     render(h) {
       return h(GScan, {});
     }
