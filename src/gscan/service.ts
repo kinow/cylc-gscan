@@ -4,8 +4,8 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
 
-const GRAPHQL_WS_ENDPOINT = 'ws://localhost:8000/subscriptions';
-const GRAPHQL_HTTP_ENDPOINT = 'http://localhost:8000/graphql';
+const GRAPHQL_WS_ENDPOINT = 'ws://localhost:8000/user/kinow/subscriptions';
+const GRAPHQL_HTTP_ENDPOINT = 'http://localhost:8000/user/kinow/graphql';
 
 export default class WorkflowService {
   apolloClient: ApolloClient<any>;
