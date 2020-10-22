@@ -63,3 +63,8 @@ Now every change will be built locally and bundled into JupyterLab. Be sure to r
 
 jupyter labextension uninstall cylc-gscan
 ```
+
+### References
+
+- [JupyterLab Extension Examples](https://github.com/jupyterlab/extension-examples)
+
