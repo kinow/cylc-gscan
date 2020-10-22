@@ -203,11 +203,6 @@ export default class GScan extends Vue {
     return workflowSummaries;
   }
 
-  // methods
-  setActive(isActive: boolean): void {
-    this.isLoading = !isActive;
-  }
-
   getWorkflowIcon(status: string): string {
     switch (status) {
       case 'running':
