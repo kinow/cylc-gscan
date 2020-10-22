@@ -1,13 +1,15 @@
+import { VListItem, VListItemTitle } from 'vuetify/lib';
 import Vue from 'vue';
+
+Vue.component('v-list-item', VListItem);
+Vue.component('v-list-item-title', VListItemTitle);
+
 import Component from 'vue-class-component';
 import { mdiHelpCircle, mdiPauseOctagon, mdiPlayCircle } from '@mdi/js';
 
 import Job from './job';
 import WorkflowService from './service';
 import gql from 'graphql-tag';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const compiler = require('vue-template-compiler');
 
 const GSCAN_QUERY = `
 subscription {
@@ -149,14 +151,15 @@ const TEMPLATE = `
 </div>
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const compiler = require('vue-template-compiler');
+const { render } = compiler.compileToFunctions(TEMPLATE);
+
 @Component({
   components: {
     Job
   },
-  render(createElement: any, context: any): any {
-    const { render } = compiler.compileToFunctions(TEMPLATE);
-    return render(createElement, {});
-  }
+  render
 })
 export default class GScan extends Vue {
   // data

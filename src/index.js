@@ -1,5 +1,11 @@
 import { StackedPanel, Widget } from '@lumino/widgets';
+import Vuetify from 'vuetify';
+import { VListItem, VListItemTitle } from 'vuetify/lib';
 import Vue from 'vue';
+
+Vue.component('v-list-item', VListItem)
+Vue.component('v-list-item-title', VListItemTitle)
+
 import GScan from './gscan/GScan.vue';
 /**
  * Initialization data for the cylc-gscan extension.
@@ -25,9 +31,12 @@ function buildUI(app, layout) {
 }
 function renderGScan(widget, props) {
     if (props === void 0) { props = {}; }
+    Vue.use(Vuetify);
+    const vuetify = new Vuetify(opts);
     // TODO: render the GScan component here
     // now render the panel view
     new Vue({
+        vuetify,
         el: widget.node.id,
         render: function (h) {
             return h(GScan, {});
