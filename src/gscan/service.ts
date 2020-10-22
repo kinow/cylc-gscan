@@ -1,8 +1,18 @@
-import { ApolloClient, DocumentNode, HttpLink, InMemoryCache, split } from '@apollo/client';
+import {
+  ApolloClient,
+  DocumentNode,
+  HttpLink,
+  InMemoryCache,
+  split
+} from '@apollo/client';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
+// NOTE: you can get the base URL with PageConfig
+//       but at the moment this experiment runs without jhub/cylc-uiserver
+// import { PageConfig } from '@jupyterlab/coreutils';
+// const baseUrl = PageConfig.getBaseUrl();
 
 const GRAPHQL_WS_ENDPOINT = 'ws://localhost:8000/user/kinow/subscriptions';
 const GRAPHQL_HTTP_ENDPOINT = 'http://localhost:8000/user/kinow/graphql';
