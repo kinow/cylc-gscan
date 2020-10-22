@@ -6,6 +6,7 @@ import Job from './job';
 import WorkflowService from './service';
 import gql from 'graphql-tag';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const compiler = require('vue-template-compiler');
 
 const GSCAN_QUERY = `
@@ -41,10 +42,10 @@ subscription {
     }
   }
 }
-`
+`;
 
-function getWorkflowSummary (workflow: any) {
-  const states = new Map()
+function getWorkflowSummary(workflow: any): Map<any, any> {
+  const states = new Map();
   // a stopped workflow, may not have any tasks
   if (workflow.taskProxies) {
     for (const taskProxy of workflow.taskProxies) {
@@ -53,23 +54,25 @@ function getWorkflowSummary (workflow: any) {
         for (const job of taskProxy.jobs) {
           // TODO: temporary fix, as the backend is sending ready jobs, but they will change in cylc flow&uiserver in the future
           if (job.state === 'ready') {
-            continue
+            continue;
           }
           if (!states.has(job.state)) {
-            states.set(job.state, new Set())
+            states.set(job.state, new Set());
           }
-          states.get(job.state).add(`${taskProxy.name}.${taskProxy.cyclePoint}`)
+          states
+            .get(job.state)
+            .add(`${taskProxy.name}.${taskProxy.cyclePoint}`);
         }
       }
     }
     for (const [stateName, tasksSet] of states.entries()) {
-      states.set(stateName, [...tasksSet].sort())
+      states.set(stateName, [...tasksSet].sort());
     }
   }
-  return new Map([...states.entries()].sort())
+  return new Map([...states.entries()].sort());
 }
 
-const workflowService = new WorkflowService()
+const workflowService = new WorkflowService();
 
 const TEMPLATE = `
 <div>
@@ -144,7 +147,7 @@ const TEMPLATE = `
     </div>
   </div>
 </div>
-`
+`;
 
 @Component({
   components: {
@@ -152,7 +155,7 @@ const TEMPLATE = `
   },
   render(createElement: any, context: any): any {
     const { render } = compiler.compileToFunctions(TEMPLATE);
-    return render(createElement, {})
+    return render(createElement, {});
   }
 })
 export default class GScan extends Vue {
@@ -169,69 +172,72 @@ export default class GScan extends Vue {
   };
 
   // computed
-  get sortedWorkflows() {
+  get sortedWorkflows(): Array<any> {
     return [...this.workflows].sort((left, right) => {
       if (left.status !== right.status) {
         if (left.status === 'stopped') {
-          return 1
+          return 1;
         }
         if (right.status === 'stopped') {
-          return -1
+          return -1;
         }
       }
-      return left.name.toLowerCase()
-        .localeCompare(
-          right.name.toLowerCase(),
-          undefined,
-          { numeric: true, sensitivity: 'base' })
-    })
+      return left.name
+        .toLowerCase()
+        .localeCompare(right.name.toLowerCase(), undefined, {
+          numeric: true,
+          sensitivity: 'base'
+        });
+    });
   }
 
-  get workflowsSummaries() {
+  get workflowsSummaries(): Map<string, any> {
     const workflowSummaries = new Map();
     // with async scan, the workflows list may be null or undefined
     // see cylc-uiserver PR#150
     if (this.workflows) {
       for (const workflow of this.workflows) {
-        workflowSummaries.set(workflow.name, getWorkflowSummary(workflow))
+        workflowSummaries.set(workflow.name, getWorkflowSummary(workflow));
       }
     }
-    return workflowSummaries
+    return workflowSummaries;
   }
 
   // methods
-  setActive (isActive: boolean) {
-    this.isLoading = !isActive
+  setActive(isActive: boolean): void {
+    this.isLoading = !isActive;
   }
 
-  getWorkflowIcon (status: string) {
+  getWorkflowIcon(status: string): string {
     switch (status) {
       case 'running':
-        return this.svgPaths.running
+        return this.svgPaths.running;
       case 'held':
-        return this.svgPaths.held
+        return this.svgPaths.held;
       default:
-        return this.svgPaths.unknown
+        return this.svgPaths.unknown;
     }
   }
 
-  getWorkflowClass (status: string) {
+  getWorkflowClass(status: string): any {
     return {
       'c-workflow-stopped': status === 'stopped'
-    }
+    };
   }
 
   // lifecycle hooks
-  created () {
-    const vm = this
-    workflowService.request(gql(GSCAN_QUERY), (workflows: Object[]) => {
-      vm.workflows = workflows
-    })
+  created(): void {
+    workflowService.request(
+      gql(GSCAN_QUERY),
+      (workflows: Record<string, any>[]) => {
+        this.workflows = workflows;
+      }
+    );
   }
 
-  beforeDestroy () {
+  beforeDestroy(): void {
     if (workflowService.observable !== null) {
-      workflowService.observable.unsubscribe()
+      workflowService.observable.unsubscribe();
     }
   }
 }
